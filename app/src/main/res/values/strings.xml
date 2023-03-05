@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Invasion: MTG life counter </string>
+    <string name="minus_life">Decrease life with 1</string>
+    <string name="plus_life">Increase life by 1</string>
+</resources>
