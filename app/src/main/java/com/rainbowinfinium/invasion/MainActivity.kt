@@ -2,7 +2,6 @@ package com.rainbowinfinium.invasion
 
 import android.os.Build
 import android.os.Bundle
-import android.view.View
 import android.view.Window
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -15,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,8 +47,6 @@ class MainActivity : ComponentActivity() {
 //                    systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
 //                }
 
-
-
                 UserField()
             }
         }
@@ -80,11 +78,13 @@ fun UserField() {
             .padding(6.dp)
             ) {
             Box(modifier = Modifier
-                .fillMaxSize(1f)
+                .fillMaxSize()
+                .graphicsLayer(rotationZ = 180f)
             ){
                 Image( painter = painterResource (R.drawable.ic_arrow_left),
                     contentDescription = stringResource(id = R.string.minus_life),
                     modifier = Modifier
+                        .size(60.dp)
                         .align(Alignment.CenterStart)
                         .padding(start = 6.dp)
                     //.clip(CircleShape)
@@ -92,11 +92,12 @@ fun UserField() {
                 Text(text = "20",
                     modifier = Modifier
                         .align(Alignment.Center)
-                    , fontSize = 80.sp
+                    , fontSize = 100.sp
                     , color = Color.White)
                 Image( painter = painterResource (R.drawable.ic_arrow_right),
                     contentDescription = stringResource(id = R.string.plus_life),
                     modifier = Modifier
+                        .size(60.dp)
                         .align(Alignment.CenterEnd)
                         .padding(end = 6.dp)
                     //.clip(CircleShape)
@@ -111,20 +112,32 @@ fun UserField() {
             .padding(6.dp)
         ) {
             Box(modifier = Modifier
-                .fillMaxSize(1f)
+                .fillMaxSize()
                 ){
+                Image( painter = painterResource (R.drawable.ic_arrow_left),
+                    contentDescription = stringResource(id = R.string.minus_life),
+                    modifier = Modifier
+                        .size(60.dp)
+                        .align(Alignment.CenterStart)
+                        .padding(start = 6.dp)
+                    //.clip(CircleShape)
+                )
                 Text(text = "20",
                     modifier = Modifier
                         .align(Alignment.Center)
-                        , fontSize = 80.sp
+                        , fontSize = 100.sp
                 , color = Color.White)
+                Image( painter = painterResource (R.drawable.ic_arrow_right),
+                    contentDescription = stringResource(id = R.string.plus_life),
+                    modifier = Modifier
+                        .size(60.dp)
+                        .align(Alignment.CenterEnd)
+                        .padding(end = 6.dp)
+                    //.clip(CircleShape)
+                )
             }
-
-
         }
-
     }
-
 }
 
 @Preview(showBackground = true)
