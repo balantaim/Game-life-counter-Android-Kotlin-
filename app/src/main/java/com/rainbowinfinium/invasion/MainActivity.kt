@@ -5,10 +5,13 @@ import android.os.Bundle
 import android.view.Window
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,10 +27,12 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.rainbowinfinium.invasion.ui.theme.InvasionTheme
-
+import com.rainbowinfinium.invasion.viewmodel.OneVOneViewModel
 
 
 class MainActivity : ComponentActivity() {
+
+    private val battleViewModel by viewModels<OneVOneViewModel>()
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +41,9 @@ class MainActivity : ComponentActivity() {
             InvasionTheme {
                 // A surface container using the 'background' color from the theme
                 setFullscreen(window)
-//                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                Surface(modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background) {
+                    //                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
 //                        View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
 
 //                window.decorView.apply {
@@ -47,27 +54,14 @@ class MainActivity : ComponentActivity() {
 //                    systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
 //                }
 
-                UserField()
+                    UserField(battleViewModel)
+                }
             }
         }
     }
 }
-
-private fun setFullscreen(window: Window) {
-    WindowCompat.setDecorFitsSystemWindows(window, false)
-    WindowInsetsControllerCompat(window,
-        window.decorView.findViewById(android.R.id.content)).let { controller ->
-        controller.hide(WindowInsetsCompat.Type.systemBars())
-
-        // When the screen is swiped up at the bottom
-        // of the application, the navigationBar shall
-        // appear for some time
-        controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-    }
-}
-
 @Composable
-fun UserField() {
+fun UserField(viewModel: OneVOneViewModel) {
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(2.dp)) {
@@ -89,7 +83,7 @@ fun UserField() {
                         .padding(start = 6.dp)
                     //.clip(CircleShape)
                 )
-                Text(text = "20",
+                Text(text = viewModel.baseLife.toString(),
                     modifier = Modifier
                         .align(Alignment.Center)
                     , fontSize = 100.sp
@@ -103,7 +97,6 @@ fun UserField() {
                     //.clip(CircleShape)
                 )
             }
-
         }
         Row(modifier = Modifier
             .fillMaxWidth(1f)
@@ -122,7 +115,7 @@ fun UserField() {
                         .padding(start = 6.dp)
                     //.clip(CircleShape)
                 )
-                Text(text = "20",
+                Text(text = viewModel.baseLife.toString(),
                     modifier = Modifier
                         .align(Alignment.Center)
                         , fontSize = 100.sp
@@ -139,11 +132,22 @@ fun UserField() {
         }
     }
 }
+private fun setFullscreen(window: Window) {
+    WindowCompat.setDecorFitsSystemWindows(window, false)
+    WindowInsetsControllerCompat(window,
+        window.decorView.findViewById(android.R.id.content)).let { controller ->
+        controller.hide(WindowInsetsCompat.Type.systemBars())
 
+        // When the screen is swiped up at the bottom
+        // of the application, the navigationBar shall
+        // appear for some time
+        controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+    }
+}
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     InvasionTheme {
-        UserField()
+        UserField(viewModel = OneVOneViewModel())
     }
 }
